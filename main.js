@@ -1,29 +1,29 @@
-const products = fetch("https://dummyjson.com/products")
-  .then((res) => res.json())
-  .then((data) => {
-    const container = document.querySelector(".container");
-
-    const createHtml = ({ brand, category, price, title, thumbnail }) => `
+const createHtml = ({ brand, category, price, title, thumbnail }) => `
       <h2 class="tittle">${title}</h2>
       <img src=${thumbnail} class="thumbnail"/>
       <p class="price">${price} $</p>
       <p class="brand">${brand}</p>
       <p class="categoty">${category}</p>
     `;
-    console.log({ data });
 
-    const result = () => {
-      const elements = data.products.map((product) => {
-        const element = document.createElement("div");
+const render = (products) => {
+  const container = document.querySelector(".container");
 
-        element.className = "product-card";
+  const elements = products.map((product) => {
+    const element = document.createElement("div");
 
-        element.innerHTML = createHtml(product);
+    element.className = "product-card";
 
-        return element;
-      });
+    element.innerHTML = createHtml(product);
 
-      container.append(...elements);
-    };
-    result();
+    return element;
+  });
+
+  container.append(...elements);
+};
+
+const products = fetch("https://dummyjson.com/products")
+  .then((res) => res.json())
+  .then((data) => {
+    render(data.products);
   });
